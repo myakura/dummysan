@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<meta charset=UTF-8>
+<title>ダミーさん</title>
+<!-- dummysan ver. 2010-02-14 -->
+<style>
+html { margin: 0; padding: 0 }
+body { padding: 1em 50px }
+h1 { font-size: 20px }
+img { margin-right: 10px }
+#rack { direction: rtl; text-align: left }
+</style>
+<body>
+<h1>ダミーさん</h1>
+<p><input type=number name=w id=w size=6 maxlength=3 required autofocus><input type=number name=h id=h size=6 maxlength=3 required><button type=button onclick="add()">ダミー画像生成</button></p>
+
+<p id=canvasbox><canvas width=0 height=0></canvas></p>
+
+<p id=rack></p>
+
+<script>
+// 入力ボックスなど
+var c = document.querySelector('canvas');
+var w = document.querySelector('#w'),
+    h = document.querySelector('#h');
+
+// データ保存用
+var storage = [];
+var count = 0;
+
+// ダミー画像の追加
+function add() {
+  // 入力された値を数値として取得
+  var iw = ('valueAsNumber' in w) ? w.valueAsNumber : parseInt(w.value),
+      ih = ('valueAsNumber' in h) ? h.valueAsNumber : parseInt(h.value);
+//  console.log('input: ' + iw + ' × ' + ih);
+
+  // 入力された値のチェック
+  if (check(iw, ih)) {
+    // チェックしたら描画して、情報を保存する
+    if (!!storage.length) {
+      display();
+    }
+    draw(iw, ih);
+    store();
+  }
+}
+
+// 陳列
+function display() {
+  var r = document.querySelector('#rack');
+  var img = document.createElement('img');
+  img.setAttribute('src', storage[count-1].data);
+  r.appendChild(img);
+}
+
+// ダミー画像の描画
+function draw(width, height) {
+  // 幅と高さをcanvasにセット
+  c.setAttribute('width', width);
+  c.setAttribute('height', height);
+
+  // ダミー画像を描画
+  var ctx = c.getContext('2d');
+  ctx.fillStyle = '#bbb';
+  ctx.fillRect(0, 0, c.width, c.height);
+
+  // 幅が36px以下、テキストAPIが無い場合はここでさよなら
+  if (c.width < 36 || !ctx.fillText) return false;
+
+  // テキストの基本スタイル
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#fff';
+  ctx.shadowBlur = 5;
+  ctx.shadowColor = '#666';
+
+  // フォントの大きさは幅によって変える
+  if (c.width < 36) {
+    ctx.font = '12px Trebuchet MS';
+    ctx.shadowBlur = 0;
+  }
+  else if (c.width < 76) {
+    ctx.font = 'bold 15px Trebuchet MS';
+  }
+  else {
+    ctx.font = 'bold 20px Trebuchet MS';
+  }
+
+  // テキストを描画する
+  ctx.fillText(c.width + '×' + c.height, c.width/2, c.height/2);
+}
+
+// ダミー画像の保存
+function store() {
+  // ストレージにデータと幅/高さを格納する
+  storage[count] = { width: c.width, height: c.height, data: c.toDataURL() }
+
+  // デバッグ用
+//  console.log(storage[count]);
+//  console.log('storage.length: ' + storage.length);
+
+  // アップデート
+  count++;
+}
+
+// 入力制御
+function check(input_w, input_h) {
+  var b = true;
+
+  // 文字列やなにも入力されてなければアウト
+  b = !(isNaN(input_w) || isNaN(input_h));
+  if (!b) console.log('isNaN: false');
+
+  // 同じ大きさのものが格納されてないかチェック
+  var i = 0, l = storage.length;
+/*  while (i < l) {
+//    console.log('w' + i + ': ' + (storage[i].width == input_w) + ', h' + i + ': ' + (storage[i].height == input_h));
+    if (storage[i].width == input_w && storage[i].height == input_h) {
+      b = false;
+      console.log('b' + i + ': ' + b);
+      break;
+    }
+    i++;
+  }*/
+
+  while (b && i < l) {
+//    console.log('w' + i + ': ' + (storage[i].width == input_w) + ', h' + i + ': ' + (storage[i].height == input_h));
+    b = !(storage[i].width == input_w && storage[i].height == input_h);
+//    console.log('b' + i + ': ' + b);
+    i++;
+  }
+
+  return b;
+}
+</script>
