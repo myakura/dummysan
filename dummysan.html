@@ -64,8 +64,15 @@ var draw = function (width, height) {
 
   // ダミー画像を描画
   var ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#bbb';
-  ctx.fillRect(0, 0, cWidth, cHeight);
+
+  // 薄い灰色のグラデーションで塗りつぶす
+  ctx.beginPath();
+  var gradient = ctx.createRadialGradient(cWidth/2, cHeight/2, 0, cWidth/2, cHeight/2, cWidth/2);
+  gradient.addColorStop(0, '#ccc');
+  gradient.addColorStop(1, '#bbb');
+  ctx.fillStyle = gradient;
+  ctx.rect(0, 0, cWidth, cHeight);
+  ctx.fill();
 
   // 幅が36px以下、テキストAPIが無い場合はここでさよなら
   if (cWidth < 36 || !ctx.fillText) return false;
