@@ -45,7 +45,7 @@ var parseInput = function (argString) {
 var createDummy = function (width, height) {
 
   // 不正な値ならさよなら
-  if (_isNumber(width) || _isNumber(height)) {
+  if (!_isNumber(width) || !_isNumber(height)) {
     return;
   }
 
