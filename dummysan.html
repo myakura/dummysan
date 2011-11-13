@@ -44,6 +44,11 @@ var parseInput = function (argString) {
 // ダミー画像の描画
 var createDummy = function (width, height) {
 
+  // 不正な値ならさよなら
+  if (_isNumber(width) || _isNumber(height)) {
+    return;
+  }
+
   // canvas要素を生成
   var canvas = document.createElement('canvas');
 
@@ -54,6 +59,11 @@ var createDummy = function (width, height) {
   // ダミー画像を描画
   var ctx = canvas.getContext('2d');
 
+  // テキストAPIが無い場合はここでさよなら
+  if (!ctx.fillText) {
+    return;
+  }
+
   // 薄い灰色のグラデーションで塗りつぶす
   ctx.beginPath();
   var gradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, width/2);
@@ -62,11 +72,6 @@ var createDummy = function (width, height) {
   ctx.fillStyle = gradient;
   ctx.rect(0, 0, width, height);
   ctx.fill();
-
-  // テキストAPIが無い場合はここでさよなら
-  if (!ctx.fillText) {
-    return;
-  }
 
   // テキストの基本スタイル
   ctx.textAlign = 'center';
@@ -89,10 +94,15 @@ var createDummy = function (width, height) {
   // テキストを描画する
   ctx.fillText(width + '×' + height, width/2, height/2);
 
-  // canvas要素をとりあえず返す
+  // canvas要素を返す
   return canvas;
 }
 
+// 整数判定
+// Good Partsからもってきた
+var _isNumber = function (suspect) {
+  return typeof suspect === 'number' && isFinite(suspect);
+}
 
 button.addEventListener('click', function () {
   // 入力された値を数値として取得
