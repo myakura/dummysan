@@ -31,7 +31,7 @@ var parseInput = function (argString) {
     if (regexInput.test(argString)) {
         var arrayParsed = argString.match(regexInput).slice(1);
         var i = 0,
-                l = arrayParsed.length;
+            l = arrayParsed.length;
         for (i; i < l; i++) {
             arrayResult[i] = parseInt(arrayParsed[i], 10);
         }
