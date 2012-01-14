@@ -57,11 +57,6 @@ var createDummy = function (width, height) {
     // ダミー画像を描画
     var ctx = canvas.getContext('2d');
 
-    // テキストAPIが無い場合はここでさよなら
-    if (!ctx.fillText) {
-        return;
-    }
-
     // 薄い灰色のグラデーションで塗りつぶす
     ctx.beginPath();
     var gradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, width/2);
