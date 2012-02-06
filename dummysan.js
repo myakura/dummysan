@@ -3,7 +3,7 @@
 // Namespace
 var Dummysan = {};
 
-// 整数判定
+// 数判定
 // Good Partsからもってきた
 Dummysan._isNumber = function (suspect) {
     return typeof suspect === 'number' && isFinite(suspect);
