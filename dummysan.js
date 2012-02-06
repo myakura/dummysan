@@ -9,7 +9,7 @@ Dummysan.parse = function (string) {
     // 所々に空白を許すやさしい仕様
     var re = /^(?:\u0020*)(\d+)(?:\u0020*[\u0020,x]\u0020*)(\d+)(?:\u0020*)$/;
     var result = [],
-	parsed, i, l;
+        parsed, i, l;
 
     // マッチしたら中身を普通の数値に変換
     if (re.test(string)) {
