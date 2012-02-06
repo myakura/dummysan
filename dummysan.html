@@ -31,8 +31,10 @@ button.addEventListener('click', function () {
     var canvas = Dummysan.create(dummyWidth, dummyHeight);
 
     // 取得したダミー画像をimg要素に格納して追加
-    var img = document.createElement('img');
-    img.src = canvas.toDataURL();
-    rack.appendChild(img);
+    if (!!canvas) {
+        var img = document.createElement('img');
+        img.src = canvas.toDataURL();
+        rack.appendChild(img);
+    }
 }, false);
 </script>
