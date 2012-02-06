@@ -3,6 +3,12 @@
 // Namespace
 var Dummysan = {};
 
+// 整数判定
+// Good Partsからもってきた
+Dummysan._isNumber = function (suspect) {
+    return typeof suspect === 'number' && isFinite(suspect);
+}
+
 // widthとheightを文字列から抽出する
 Dummysan.parse = function (string) {
     // "320 200", "120,200", "240x80" などにマッチ
@@ -67,11 +73,5 @@ Dummysan.create = function (width, height) {
     ctx.fillText(width + '×' + height, width/2, height/2);
 
     return canvas;
-}
-
-// 整数判定
-// Good Partsからもってきた
-Dummysan._isNumber = function (suspect) {
-    return typeof suspect === 'number' && isFinite(suspect);
 }
 
