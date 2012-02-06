@@ -1,38 +1,39 @@
+// dummysan.js ver. 2012-02-07
+
+// Namespace
+var Dummysan = {};
+
 // widthとheightを文字列から抽出する
-var parseInput = function (argString) {
+Dummysan.parse = function (string) {
     // "320 200", "120,200", "240x80" などにマッチ
     // 所々に空白を許すやさしい仕様
-    var regexInput = /^(?:\u0020*)(\d{1,3})(?:\u0020*[\u0020,x]\u0020*)(\d{1,3})(?:\u0020*)$/;
-    var arrayResult = [];
+    var re = /^(?:\u0020*)(\d{1,3})(?:\u0020*[\u0020,x]\u0020*)(\d{1,3})(?:\u0020*)$/;
+    var result = [],
+	parsed, i, l;
 
     // マッチしたら中身を普通の数値に変換
-    if (regexInput.test(argString)) {
-        var arrayParsed = argString.match(regexInput).slice(1);
-        var i = 0,
-            l = arrayParsed.length;
-        for (i; i < l; i++) {
-            arrayResult[i] = parseInt(arrayParsed[i], 10);
+    if (re.test(string)) {
+        var parsed = string.match(re).slice(1);
+        for (i = 0, l = parsed.length; i < l; i++) {
+            result[i] = parseInt(parsed[i], 10);
         }
     }
-    return arrayResult;
+    return result;
 }
 
 // ダミー画像の描画
-var createDummy = function (width, height) {
+Dummysan.create = function (width, height) {
 
     // 不正な値ならさよなら
-    if (!_isNumber(width) || !_isNumber(height)) {
+    if (!Dummysan._isNumber(width) || !Dummysan._isNumber(height)) {
         return;
     }
 
-    // canvas要素を生成
+    // canvasをつくって幅と高さをセット
     var canvas = document.createElement('canvas');
-
-    // 幅と高さをcanvasにセット
     canvas.setAttribute('width', width);
     canvas.setAttribute('height', height);
 
-    // ダミー画像を描画
     var ctx = canvas.getContext('2d');
 
     // 薄い灰色のグラデーションで塗りつぶす
@@ -65,13 +66,12 @@ var createDummy = function (width, height) {
     // テキストを描画する
     ctx.fillText(width + '×' + height, width/2, height/2);
 
-    // canvas要素を返す
     return canvas;
 }
 
 // 整数判定
 // Good Partsからもってきた
-var _isNumber = function (suspect) {
+Dummysan._isNumber = function (suspect) {
     return typeof suspect === 'number' && isFinite(suspect);
 }
 

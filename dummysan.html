@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta charset=UTF-8>
 <title>ダミーさん</title>
-<!-- dummysan ver. 2012-02-07 -->
+<!-- dummysan.html ver. 2012-02-07 -->
 <script src=dummysan.js></script>
 <style>
 html { margin: 0; padding: 0 }
@@ -23,12 +23,12 @@ var input = document.querySelector('input'),
 
 button.addEventListener('click', function () {
     // 入力された値を数値として取得
-    var parsedInput = parseInput(input.value);
-    var inputWidth = parsedInput[0],
-        inputHeight = parsedInput[1];
+    var parsedInput = Dummysan.parse(input.value);
+    var dummyWidth = parsedInput[0],
+        dummyHeight = parsedInput[1];
 
     // ダミー画像を描画したcanvas要素を取得
-    var canvas = createDummy(inputWidth, inputHeight);
+    var canvas = Dummysan.create(dummyWidth, dummyHeight);
 
     // 取得したダミー画像をimg要素に格納して追加
     var img = document.createElement('img');
