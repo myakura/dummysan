@@ -12,19 +12,22 @@ img { margin-right: 10px }
 </style>
 <body>
 <h1>ダミーさん</h1>
-<p><input placeholder="320 240"><button type=button>ダミー画像生成</button></p>
+<p><input placeholder="320 240"><button type=button>ダミー画像をつくる</button></p>
 
 <p id=rack></p>
 
 <script>
-var input = document.querySelector('input'),
+var input  = document.querySelector('input'),
     button = document.querySelector('button'),
-    rack = document.querySelector('#rack');
+    rack   = document.querySelector('#rack');
 
 button.addEventListener('click', function () {
     // 入力された値を数値として取得
     var parsedInput = Dummysan.parse(input.value);
-    var dummyWidth = parsedInput[0],
+
+    if (!!parsedInput.length) return;
+
+    var dummyWidth  = parsedInput[0],
         dummyHeight = parsedInput[1];
 
     // ダミー画像を描画したcanvas要素を取得
