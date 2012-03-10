@@ -25,7 +25,7 @@ button.addEventListener('click', function () {
     // 入力された値を数値として取得
     var parsedInput = Dummysan.parse(input.value);
 
-    if (!!parsedInput.length) return;
+    if (!parsedInput.length) return;
 
     var dummyWidth  = parsedInput[0],
         dummyHeight = parsedInput[1];

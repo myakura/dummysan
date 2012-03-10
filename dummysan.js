@@ -1,18 +1,26 @@
-// dummysan.js ver. 2012-02-07
+/** Dummysan */
 
-// Namespace
-var Dummysan = {};
+// window, documentをわたす関数オブジェクトをつくる
+;(function (window, document){
+// どっちもなかったらアウト
+if (!(window && document)) return;
 
-// 数判定
-// Good Partsからもってきた
-Dummysan._isNumber = function (suspect) {
+// Canvasなかったらアウト
+var canvas = document.createElement('canvas');
+if (!(canvas.getContext && canvas.getContext('2d'))) return;
+
+// ダミーさんです
+var Dummysan = window.Dummysan = {
+    version : '2012-03-11'
+};
+
+// 本当に数値なのかどうか（The Good Partsより）
+function isNum(suspect) {
     return typeof suspect === 'number' && isFinite(suspect);
-}
+};
 
-// widthとheightを文字列から抽出する
 Dummysan.parse = function (string) {
     // "320 200", "120,200", "240x80" などにマッチ
-    // 所々に空白を許すやさしい仕様
     var re = /^(?:\u0020*)(\d+)(?:\u0020*[\u0020,x]\u0020*)(\d+)(?:\u0020*)$/;
     var result = [],
         parsed, i, l;
@@ -25,29 +33,23 @@ Dummysan.parse = function (string) {
         }
     }
     return result;
-}
+};
 
-// ダミー画像の描画
 Dummysan.create = function (width, height) {
+    if (!(isNum(width) && isNum(height))) return;
 
-    // 不正な値ならさよなら
-    if (!Dummysan._isNumber(width) || !Dummysan._isNumber(height)) {
-        return;
-    }
-
-    // canvasをつくって幅と高さをセット
-    var canvas = document.createElement('canvas');
-    canvas.setAttribute('width', width);
-    canvas.setAttribute('height', height);
-
+    canvas.width = width;
+    canvas.height = height;
     var ctx = canvas.getContext('2d');
 
-    // 薄い灰色のグラデーションで塗りつぶす
+    var hw = width/2, hh = height/2;
+
+    // グラデーションで塗りつぶす
     ctx.beginPath();
-    var gradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, width/2);
-    gradient.addColorStop(0, '#ccc');
-    gradient.addColorStop(1, '#bbb');
-    ctx.fillStyle = gradient;
+    var bg = ctx.createRadialGradient(hw, hh, 0, hw, hh, hw);
+    bg.addColorStop(0, '#ccc');
+    bg.addColorStop(1, '#bbb');
+    ctx.fillStyle = bg;
     ctx.rect(0, 0, width, height);
     ctx.fill();
 
@@ -70,8 +72,9 @@ Dummysan.create = function (width, height) {
     }
 
     // テキストを描画する
-    ctx.fillText(width + '×' + height, width/2, height/2);
+    ctx.fillText(width + '×' + height, hw, hh);
 
-    return canvas;
-}
+    return canvas; // 今はとりあえずcanvasを返しとく
+};
+}(this, this.document));
 
