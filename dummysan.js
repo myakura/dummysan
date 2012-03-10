@@ -19,7 +19,7 @@ function isNum(suspect) {
     return typeof suspect === 'number' && isFinite(suspect);
 };
 
-Dummysan.parse = function (string) {
+Dummysan.parseInput = function (string) {
     // "320 200", "120,200", "240x80" などにマッチ
     var re = /^(?:\u0020*)(\d+)(?:\u0020*[\u0020,x]\u0020*)(\d+)(?:\u0020*)$/;
     var result = [],
@@ -35,7 +35,7 @@ Dummysan.parse = function (string) {
     return result;
 };
 
-Dummysan.create = function (width, height) {
+Dummysan.createDummyCanvas = function (width, height) {
     if (!(isNum(width) && isNum(height))) return;
 
     canvas.width = width;
@@ -74,7 +74,16 @@ Dummysan.create = function (width, height) {
     // テキストを描画する
     ctx.fillText(width + '×' + height, hw, hh);
 
-    return canvas; // 今はとりあえずcanvasを返しとく
+    return canvas;
 };
+
+Dummysan.createDummyImage = function (width, height) {
+    var res = document.createElement('img');
+    var cvs = Dummysan.createDummyCanvas(width, height);
+    res.src = cvs.toDataURL();
+    return res;
+}
+    
+
 }(this, this.document));
 

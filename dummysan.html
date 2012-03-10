@@ -23,21 +23,16 @@ var input  = document.querySelector('input'),
 
 button.addEventListener('click', function () {
     // 入力された値を数値として取得
-    var parsedInput = Dummysan.parse(input.value);
+    var parsedInput = Dummysan.parseInput(input.value);
 
     if (!parsedInput.length) return;
 
     var dummyWidth  = parsedInput[0],
         dummyHeight = parsedInput[1];
 
-    // ダミー画像を描画したcanvas要素を取得
-    var canvas = Dummysan.create(dummyWidth, dummyHeight);
+    // ダミー画像を取得
+    var img = Dummysan.createDummyImage(dummyWidth, dummyHeight);
 
-    // 取得したダミー画像をimg要素に格納して追加
-    if (!!canvas) {
-        var img = document.createElement('img');
-        img.src = canvas.toDataURL();
-        rack.appendChild(img);
-    }
+    rack.appendChild(img);
 }, false);
 </script>
