@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta charset=UTF-8>
 <title>ダミーさん</title>
-<!-- dummysan.html ver. 2012-02-07 -->
+<!-- dummysan.html ver. 2012-06-20 -->
 <script src=dummysan.js></script>
 <style>
 html { margin: 0; padding: 0 }
@@ -12,26 +12,27 @@ img { margin-right: 10px }
 </style>
 <body>
 <h1>ダミーさん</h1>
-<p><input placeholder="320 240"><button type=button>ダミー画像をつくる</button></p>
+<form><input placeholder="320 240"><button>ダミー画像をつくる</button></form>
 
 <p id=rack></p>
 
 <script>
-var input  = document.querySelector('input'),
-    button = document.querySelector('button'),
-    rack   = document.querySelector('#rack');
+var form  = document.querySelector('form'),
+    input = document.querySelector('input'),
+    rack  = document.querySelector('#rack');
 
-button.addEventListener('click', function () {
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
     // 入力された値を数値として取得
     var parsedInput = Dummysan.parseInput(input.value);
-
     if (!parsedInput.length) return;
 
-    var dummyWidth  = parsedInput[0],
-        dummyHeight = parsedInput[1];
+    var dummyImageWidth  = parsedInput[0],
+        dummyImageHeight = parsedInput[1];
 
     // ダミー画像を取得
-    var img = Dummysan.createDummyImage(dummyWidth, dummyHeight);
+    var img = Dummysan.createDummyImage(dummyImageWidth, dummyImageHeight);
 
     rack.appendChild(img);
 }, false);

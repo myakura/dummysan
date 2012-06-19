@@ -1,7 +1,7 @@
 /** Dummysan */
 
 // window, documentをわたす関数オブジェクトをつくる
-;(function (window, document){
+(function (window, document){
 // どっちもなかったらアウト
 if (!(window && document)) return;
 
@@ -11,7 +11,7 @@ if (!(canvas.getContext && canvas.getContext('2d'))) return;
 
 // ダミーさんです
 var Dummysan = window.Dummysan = {
-    version : '2012-03-11'
+    version : '2012-06-20'
 };
 
 // 本当に数値なのかどうか（The Good Partsより）
@@ -22,20 +22,19 @@ function isNum(suspect) {
 Dummysan.parseInput = function (string) {
     // "320 200", "120,200", "240x80" などにマッチ
     var re = /^(?:\u0020*)(\d+)(?:\u0020*[\u0020,x]\u0020*)(\d+)(?:\u0020*)$/;
-    var result = [],
-        parsed, i, l;
+    var result = [];
 
     // マッチしたら中身を普通の数値に変換
     if (re.test(string)) {
         var parsed = string.match(re).slice(1);
-        for (i = 0, l = parsed.length; i < l; i++) {
+        for (var i = 0, l = parsed.length; i < l; i++) {
             result[i] = parseInt(parsed[i], 10);
         }
     }
     return result;
 };
 
-Dummysan.createDummyCanvas = function (width, height) {
+Dummysan.createDummyImageCanvas = function (width, height) {
     if (!(isNum(width) && isNum(height))) return;
 
     canvas.width = width;
@@ -78,12 +77,10 @@ Dummysan.createDummyCanvas = function (width, height) {
 };
 
 Dummysan.createDummyImage = function (width, height) {
-    var res = document.createElement('img');
-    var cvs = Dummysan.createDummyCanvas(width, height);
-    res.src = cvs.toDataURL();
-    return res;
+    var dummyImageCanvas = Dummysan.createDummyImageCanvas(width, height);
+    var img = new Image();
+    img.src = dummyImageCanvas.toDataURL();
+    return img;
 }
-    
 
 }(this, this.document));
-
