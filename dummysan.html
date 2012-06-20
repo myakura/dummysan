@@ -7,33 +7,43 @@
 html { margin: 0; padding: 0 }
 body { padding: 1em 50px }
 h1 { font-size: 20px }
-img { margin-right: 10px }
-#rack { direction: rtl; text-align: left }
+#rack > * { display: inline-block; margin: 10px 10px 0 0 }
+a, img { vertical-align: bottom; border: 0 }
 </style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var form  = document.querySelector('form'),
+        input = document.querySelector('input'),
+        rack  = document.querySelector('#rack');
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // 入力された値を数値として取得
+        var parsedInput = Dummysan.parseInput(input.value);
+        if (!parsedInput.length) return;
+
+        var dummyImageWidth  = parsedInput[0],
+            dummyImageHeight = parsedInput[1];
+
+        // ダミー画像を取得
+        var img = Dummysan.createDummyImage(dummyImageWidth, dummyImageHeight);
+
+        // download属性をサポートしてたらクリックでダウンロードできるようにする
+        if ('download' in document.createElement('a')) {
+            var a = document.createElement('a');
+            a.download = '_dummy_' + dummyImageWidth + 'x' + dummyImageHeight;
+            a.title = 'Click to download the image.';
+            a.href = img.src;
+            a.appendChild(img);
+            rack.insertBefore(a, rack.firstElementChild);
+        } else {
+            rack.insertBefore(img, rack.firstElementChild);
+        }
+    });
+});
+</script>
 <body>
 <h1>ダミーさん</h1>
 <form><input placeholder="320 240" autofocus><button>ダミー画像をつくる</button></form>
-
-<p id=rack></p>
-
-<script>
-var form  = document.querySelector('form'),
-    input = document.querySelector('input'),
-    rack  = document.querySelector('#rack');
-
-form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    // 入力された値を数値として取得
-    var parsedInput = Dummysan.parseInput(input.value);
-    if (!parsedInput.length) return;
-
-    var dummyImageWidth  = parsedInput[0],
-        dummyImageHeight = parsedInput[1];
-
-    // ダミー画像を取得
-    var img = Dummysan.createDummyImage(dummyImageWidth, dummyImageHeight);
-
-    rack.appendChild(img);
-}, false);
-</script>
+<p id=rack>
