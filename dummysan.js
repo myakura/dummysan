@@ -36,8 +36,6 @@ Dummysan.createDummyImageCanvas = function (width, height) {
     canvas.height = height;
     var ctx = canvas.getContext('2d');
 
-    var hw = width/2, hh = height/2;
-
     // 背景を塗る
     ctx.fillStyle = '#bbb';
     ctx.fillRect(0, 0, width, height);
@@ -58,7 +56,7 @@ Dummysan.createDummyImageCanvas = function (width, height) {
     }
 
     // テキストを描画する
-    ctx.fillText(width + '×' + height, hw, hh);
+    ctx.fillText(width + '×' + height, width / 2, height / 2);
 
     return canvas;
 };
