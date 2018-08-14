@@ -14,11 +14,6 @@ var Dummysan = window.Dummysan = {
     version : '2012-06-20'
 };
 
-// 本当に数値なのかどうか（The Good Partsより）
-function isNum(suspect) {
-    return typeof suspect === 'number' && isFinite(suspect);
-};
-
 Dummysan.parseInput = function (string) {
     // "320 200", "120,200", "240x80" などにマッチ
     var re = /^(?:\u0020*)(\d+)(?:\u0020*[\u0020,x]\u0020*)(\d+)(?:\u0020*)$/;
@@ -35,7 +30,7 @@ Dummysan.parseInput = function (string) {
 };
 
 Dummysan.createDummyImageCanvas = function (width, height) {
-    if (!(isNum(width) && isNum(height))) return;
+    if (!(Number.isInteger(width) && Number.isInteger(height))) return;
 
     canvas.width = width;
     canvas.height = height;
