@@ -10,9 +10,7 @@ var canvas = document.createElement('canvas');
 if (!(canvas.getContext && canvas.getContext('2d'))) return;
 
 // ダミーさんです
-var Dummysan = window.Dummysan = {
-    version : '2012-06-20'
-};
+var Dummysan = window.Dummysan = {};
 
 Dummysan.parseInput = function (string) {
     // "320 200", "120,200", "240x80" などにマッチ
